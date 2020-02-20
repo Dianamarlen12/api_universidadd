@@ -11,8 +11,8 @@ class Alumnos:
     def GET(self):
         try:
             datos = web.input() 
-            if datos['action'] == 'get':
-                if datos['token'] == "1234":
+            if datos['token'] == "1234":
+                if datos['action'] == 'get':
                     result = self.actionGet(self.file) 
                     return json.dumps(result)
                 else:
@@ -27,7 +27,7 @@ class Alumnos:
         except Exception as e:
             print("Error")
             result = {}
-            result[]
+            result['status'] = "Values missing, sintaxis: alumnos?action=get&token=XXXX"
             return json.dumps(result) 
 
     @staticmethod
@@ -54,4 +54,3 @@ class Alumnos:
             print("Error {}".format(e.args()))
             result['status'] = "Error " 
             return result 
-
