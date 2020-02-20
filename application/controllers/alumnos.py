@@ -24,12 +24,6 @@ class Alumnos:
                 result['status'] = "Invalid Token"
                 return json.dumps(result)
 
-        except Exception as e:
-            print("Error")
-            result = {}
-            result['status'] = "Values missing, sintaxis: alumnos?action=get&token=XXXX"
-            return json.dumps(result) 
-
     @staticmethod
     def actionGet(file):
         try:
