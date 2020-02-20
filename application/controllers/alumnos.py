@@ -27,7 +27,7 @@ class Alumnos:
         except Exception as e:
             print("Error")
             result = {}
-            result['status'] = "Values missing, sintaxis: alumnos?action=get&token=XXXX"
+            result[]
             return json.dumps(result) 
 
     @staticmethod
