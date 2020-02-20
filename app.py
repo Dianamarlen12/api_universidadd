@@ -12,6 +12,6 @@ app = web.application(urls, globals()) #Configurar aplicacion, glo: variables en
 
 
 if __name__ == "__main__":
-    web.config.debug = False
+    web.config.debug = True
     app.run() #Ejecucion del servidor 
 
