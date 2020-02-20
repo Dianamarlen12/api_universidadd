@@ -1,69 +1,73 @@
-importar  web   # pip instalar web.py
-importar  csv   # analizador CSV
-importar  json   # analizador json
+import web 
+import json
+import csv 
 
-'' '
-    Controlador Alumnos que es invocado cuando el usuario ingresa a la 
-    URL: http: // localhost: 8080 / alumnos? Action = get & token = 1234
-'' '
+class Alumnos:
+    def GET(self):
+        try:
+            datos = web.input() 
+            if datos['action'] == 'get':
+                if datos['token'] == "1234":
+                    result2 = {}
+                    result1 = []
+                    with open('static/csv/datos.csv','r') as csvfile:
+                        reader = csv.DictReader(csvfile) #Toma la primer fila para los nombres
+                        for row in reader:
+                            result1.append(row)
+                            result2['status'] = "200 Ok"
+                            result2['alumnos'] = result1
+                    return json.dumps(result2)
+            else:
+                result = [] #CREAR VALORES 
+                result.append("No te conozco")
+                return result
+        except Exception as error:
+            result = [] #Crear 
+            result.append("Faltan valores {}".format(error.args)) 
+            return result
 
-
- Alumnos de clase :
-
-    app_version  =  "0.02"   # versión de la aplicación web
-    file  =  'static / csv / alumnos.csv'   # define el archivo donde se almacenan los datos
-
-    def  __init__ ( self ):   # Método inicial o constructor de la clase
-        pase   # Simplemente continua con la ejecución
-
-    def  GET ( auto ):
-        prueba :
-            datos  =  web . input ()   # recibe los datos por la url
-            if  data [ 'token' ] ==  "1234" :   # validar el token que se recibe por url
-                if  data [ 'action' ] ==  'get' :   # evaluar la acción a realizar
-                    resultado  =  auto . actionGet ( self . app_version , self . file )   # llama al metodo actionGet (), y almacena el resultado
-                    vuelve  json . vuelcos ( resultado )   # Parsea el diccionario resultado a formato json
-                más :
-                    resultado  = {}   # crear diccionario vacio
-                    resultado [ 'app_version' ] =  self . app_version   # version de la webapp
-                    result [ 'status' ] =  "Comando no encontrado"
-                    vuelve  json . vuelcos ( resultado )   # Parsea el diccionario resultado a formato json
-            más :
-                resultado  = {}   # crear diccionario vacio
-                resultado [ 'app_version' ] =  self . app_version   # version de la webapp
-                result [ 'status' ] =  "Token inválido"
-                vuelve  json . vuelcos ( resultado )   # Parsea el diccionario resultado a formato json
-        excepto  Excepción  como  e :
-            print ( "Error" )
-            resultado  = {}   # crear diccionario vacio
-            resultado [ 'app_version' ] =  self . app_version   # version de la webapp
-            result [ 'status' ] =  "Faltan valores, sintaxis: alumnos? action = get & token = XXXX"
-            vuelve  json . vuelcos ( resultado )   # Parsea el diccionario resultado a formato json
-
-    @ método estático
-    def  actionGet ( aplicación_versión , archivo ):
-        prueba :
-            resultado  = {}   # crear diccionario vacio
-            result [ 'app_version' ] =  app_version   # version de la webapp
-            result [ 'status' ] =  "200 ok"   # mensaje de status
+                    result = self.actionGet(self.app_version, self.file)  # llama al metodo actionGet(), y almacena el resultado
+                    return json.dumps(result)  # Parsea el diccionario result a formato json
+                else:
+                    result = {}  # crear diccionario vacio
+                    result['app_version'] = self.app_version  # version de la webapp
+                    result['status'] = "Command not found"
+                    return json.dumps(result)  # Parsea el diccionario result a formato json
+            else:
+                result = {}  # crear diccionario vacio
+                result['app_version'] = self.app_version  # version de la webapp
+                result['status'] = "Invalid Token"
+                return json.dumps(result)  # Parsea el diccionario result a formato json
+        except Exception as e:
+            print("Error")
+            result = {}  # crear diccionario vacio
+            result['app_version'] = self.app_version  # version de la webapp
+            result['status'] = "Values missing, sintaxis: alumnos?action=get&token=XXXX"
+            return json.dumps(result)  # Parsea el diccionario result a formato json
             
-            con  open ( file , 'r' ) como  csvfile :   # abre el archivo en modo lectura
-                lector  =  csv . DictReader ( csvfile )   # toma la 1er fila para los nombres
-                alumnos  = []   # matriz para todos los alumnos
-                para  fila  en  lector :   # grabar el archivo CSV fila por fila
-                    fila  = {}   # Genera un diccionario por cada registro en el csv
-                    fila [ 'matricula' ] =  fila [ 'matricula' ]   # obtiene la matricula y la agrega al diccionario
-                    fila [ 'nombre' ] =  fila [ 'nombre' ]   # opcióne el nombre y lo agrega al diccionario
-                    fila [ 'primer_a Apellidos' ] =  fila [ 'primer_un apellido' ]   # optiene el primer_un apellido
-                    fila [ 'segundo_a Apellidos' ] =  fila [ 'segundo_a Apellidos' ]   # optiene el segundo apellido
-                    fila [ 'carrera' ] =  fila [ 'carrera' ]   # obtiene la carrera
-                    alumnos . append ( fila )   # agrega el diccionario generador al array alumnos
-                resultado [ 'alumnos' ] =  alumnos   # agrega el conjunto alumnos al diccionario resultado
-             resultado   devuelto # Regresa el diccionario generador
-        excepto  Excepción  como  e :
-            resultado  = {}   # crear diccionario vacio
-            print ( "Error {}" . format ( e . args ()))
-            result [ 'app_version' ] =  app_version   # version de la webapp
-            result [ 'status' ] =  "Error"   # mensaje de status
-             resultado   devuelto # Regresa el diccionario generador
+    def actionGet(app_version, file):
+        try:
+            result = {}  # crear diccionario vacio
+            result['app_version'] = app_version  # version de la webapp
+            result['status'] = "200 ok"  # mensaje de status
+            
+            with open(file, 'r') as csvfile:  # abre el archivo en modo lectura
+                reader = csv.DictReader(csvfile)  # toma la 1er fila para los nombres
+                alumnos = []  # array para almacenar todos los alumnos
+                for row in reader:  # recorre el archivo CSV fila por fila
+                    fila = {}  # Genera un diccionario por cada registro en el csv
+                    fila['matricula'] = row['matricula']  # obtiene la matricula y la agrega al diccionario
+                    fila['nombre'] = row['nombre']  # optione el nombre y lo agrega al diccionario
+                    fila['primer_apellido'] = row['primer_apellido']  # optiene el primer_apellido
+                    fila['segundo_apellido'] = row['segundo_apellido']  # optiene el segundo apellido
+                    fila['carrera'] = row['carrera']  # obtiene la carrera
+                    alumnos.append(fila)  # agrega el diccionario generado al array alumnos
+                result['alumnos'] = alumnos  # agrega el array alumnos al diccionario result
+            return result  # Regresa el diccionario generado
+        except Exception as e:
+            result = {}  # crear diccionario vacio
+            print("Error {}".format(e.args()))
+            result['app_version'] = app_version  # version de la webapp
+            result['status'] = "Error "  # mensaje de status
+            return result  # Regresa el diccionario generado
 
