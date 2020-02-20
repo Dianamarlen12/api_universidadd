@@ -11,8 +11,8 @@ class Alumnos:
     def GET(self):
         try:
             datos = web.input() 
-            if datos['token'] == "1234":
-                if datos['action'] == 'get':
+            if datos['action'] == 'get':
+                if datos['token'] == "1234":
                     result = self.actionGet(self.file) 
                     return json.dumps(result)
                 else:
