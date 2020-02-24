@@ -61,27 +61,27 @@ def GET(self):
             data = web.input() 
             if data['action'] == 'search':
                 if data['matricula'] == "001":
-                    result = self.actionGet(self.file) 
-                    return json.dumps(result)
+                    result1 = self.actionGet(self.file) 
+                    return json.dumps(result1)
                 else:
-                    result = {} 
-                    result['status'] = "Command not found"
-                    return json.dumps(result) 
+                    result1 = {} 
+                    result1['status'] = "Command not found"
+                    return json.dumps(result1) 
             else:
-                result = {} 
-                result['status'] = "Invalid Token"
-                return json.dumps(result)
+                result1 = {} 
+                result1['status'] = "Invalid Token"
+                return json.dumps(result1)
         except Exception as e:
             print("Error" + str(e.args()))
             result = {}
             result['status'] = "Values missing, sintaxis: alumnos?action=get&token=XXXX"
-            return json.dumps(result) 
+            return json.dumps(result1) 
 
     @staticmethod
     def actionGet(file):
         try:
-            result = {}  
-            result['status'] = "200 ok"
+            result1 = {}  
+            result1['status'] = "200 ok"
             
             with open(file, 'r') as csvfile:  
                 reader = csv.DictReader(csvfile)  
@@ -95,9 +95,9 @@ def GET(self):
                     fila['carrera'] = row['carrera'] 
                     alumnos.append(fila) 
                 result['alumnos'] = alumnos
-            return result
+            return result1
         except Exception as e:
-            result = {} 
+            result1 = {} 
             print("Error {}".format(e.args))
             result['status'] = "Error " 
-            return result 
+            return result1 
