@@ -56,12 +56,12 @@ class Alumnos:
 
 
 #METODO PARA HHACER LA BUSQUEDA
-def GET(self):
+def actionSearch(self):
         try:
             data = web.input() 
             if data['action'] == 'search':
                 if data['matricula'] == "001":
-                    result = self.actionGet(self.file) 
+                    result = self.actionSearch(self.file) 
                     return json.dumps(result)
                 else:
                     result = {} 
@@ -78,7 +78,7 @@ def GET(self):
             return json.dumps(result) 
 
     @staticmethod
-    def actionGet(file):
+    def actionSearch(file):
         try:
             result = {}  
             result['status'] = "200 ok"
@@ -88,7 +88,7 @@ def GET(self):
                 alumnos = []  
                 for row in reader:
                     fila = {}  
-                    fila['matricula'] = row['matricula']  
+                    fila['matricula'] = row['matricula']  #revisar porque esta ,al
                     fila['nombre'] = row['nombre']  
                     fila['primer_apellido'] = row['primer_apellido'] 
                     fila['segundo_apellido'] = row['segundo_apellido'] 
@@ -101,3 +101,5 @@ def GET(self):
             print("Error {}".format(e.args))
             result['status'] = "Error " 
             return result 
+
+        #hackear con un index, agregar 
